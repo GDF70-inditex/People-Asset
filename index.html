@@ -1207,7 +1207,9 @@ function ytd_periodFromDate(s){
   return null;
 }
 // persistenza: l'ultimo file caricato resta salvato nel browser
-const YTD_EMBED_BUILD='2026-07-08a';
+// Impronta automatica dei dati YTD incorporati nel file: cambia da sola quando pubblichi un file con dati nuovi.
+// I dati salvati nel browser valgono solo finché il file pubblicato resta lo stesso; con un file nuovo vincono i dati incorporati.
+const YTD_EMBED_BUILD=(function(){try{const s=JSON.stringify(DATA_YTD||null);let h=5381;for(let i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return 'h'+(h>>>0).toString(36)+'-'+s.length;}catch(e){return 'na';}})();
 function ytd_saveStorage(){try{localStorage.setItem('pas_ytd',JSON.stringify({build:YTD_EMBED_BUILD,data:DATA_YTD}));}catch(e){}}
 function ytd_hasStorage(){try{return !!localStorage.getItem('pas_ytd');}catch(e){return false;}}
 function ytd_restoreStorage(){
